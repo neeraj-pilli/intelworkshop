@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intel Processor Recommendation & Comparison Hub | Student Project</title>
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Kalam:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            intelBlue: '#0068B5',
+            intelLightBlue: '#E8F3FF',
+            intelSkyBlue: '#00C7FD',
+            intelDarkBlue: '#002855',
+            accentYellow: '#FFD166',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            handwritten: ['Kalam', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #F0F7FF 0%, #E6F0FA 100%);
+      color: #1E293B;
+      min-height: 100vh;
+    }
+
+    /* Handcrafted Badge Vibe */
+    .student-badge {
+      font-family: 'Kalam', cursive;
+      background-color: #FFD166;
+      color: #000;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      display: inline-block;
+      transform: rotate(-2deg);
+      box-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom checkmark boxes */
+    .proc-checkbox:checked + label {
+      border-color: #0068B5;
+      background-color: #E8F3FF;
+      color: #002855;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 104, 181, 0.15);
+    }
+
+    /* Difference Timeline Animation */
+    .diff-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .diff-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- Header Banner -->
+  <header class="bg-white/90 backdrop-blur-md border-b-2 border-dashed border-intelBlue px-6 py-4 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl font-extrabold text-intelBlue tracking-tight">intel<span class="text-intelSkyBlue">.</span></span>
+        <span class="student-badge">DSIT Student Project</span>
+      </div>
+      <p class="text-xs md:text-sm text-slate-500 font-medium">Interactive Processor Decision & Market Guide</p>
+    </div>
+  </header>
+
+  <!-- MAIN BODY CONTAINER -->
+  <main class="max-w-6xl w-full mx-auto px-4 py-6 flex-1">
+
+    <!-- MAIN BODY TOP NAVIGATION BUTTONS (Requirement 1) -->
+    <div class="bg-white border-2 border-intelLightBlue rounded-2xl p-4 mb-8 shadow-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="text-center sm:text-left">
+        <span class="text-xs font-bold uppercase text-intelBlue tracking-wider">Navigation Hub</span>
+        <h2 class="text-lg font-bold text-intelDarkBlue">Choose What You Want To Explore</h2>
+      </div>
+
+      <div class="flex flex-wrap gap-3 w-full sm:w-auto justify-center">
+        <button id="btn-home" onclick="switchTab('home')" class="nav-tab-btn flex-1 sm:flex-initial px-5 py-3 rounded-xl font-bold text-sm transition-all duration-200 border-2 border-intelBlue bg-intelBlue text-white shadow-md hover:opacity-90 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-house"></i> Home Overview
+        </button>
+        <button id="btn-recommender" onclick="switchTab('recommender')" class="nav-tab-btn flex-1 sm:flex-initial px-5 py-3 rounded-xl font-bold text-sm transition-all duration-200 border-2 border-intelBlue bg-white text-intelBlue hover:bg-intelLightBlue flex items-center justify-center gap-2">
+          <i class="fa-solid fa-sliders"></i> Recommended Processor
+        </button>
+        <button id="btn-difference" onclick="switchTab('difference')" class="nav-tab-btn flex-1 sm:flex-initial px-5 py-3 rounded-xl font-bold text-sm transition-all duration-200 border-2 border-intelBlue bg-white text-intelBlue hover:bg-intelLightBlue flex items-center justify-center gap-2">
+          <i class="fa-solid fa-scale-balanced"></i> Difference
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. HOME SECTION (Focuses on Panther Lake & Wildcat Lake) -->
+    <section id="home" class="tab-content active">
+      <div class="bg-white border-2 border-blue-100 rounded-2xl p-6 md:p-8 shadow-sm mb-8 text-center relative overflow-hidden">
+        <span class="student-badge mb-3">Intel 18A Manufacturing Era</span>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-intelDarkBlue mb-3">Understanding Intel's Next-Gen Processors</h1>
+        <p class="text-slate-600 max-w-3xl mx-auto text-sm md:text-base leading-relaxed">
+          Welcome to our workshop project! As engineering students, we created this portal to simplify Intel's lineup. In this overview, we explore <strong>Intel Core Ultra Series 3 (Panther Lake)</strong> and <strong>Intel Core Series 3 (Wildcat Lake)</strong>. Both leverage Intel 18A GAA RibbonFET technology, but each targets a unique user story.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Panther Lake Card -->
+        <div class="bg-gradient-to-b from-white to-blue-50/50 border-2 border-intelBlue rounded-2xl p-6 shadow-sm hover:shadow-md transition-all">
+          <span class="bg-intelBlue text-white text-xs font-extrabold uppercase px-3 py-1 rounded-full inline-block mb-3">Demanding Workloads & High AI</span>
+          <h3 class="text-xl font-extrabold text-intelDarkBlue">Intel Core Ultra Series 3</h3>
+          <p class="font-handwritten text-intelBlue text-lg font-bold mb-3">Codenamed: Panther Lake</p>
+          <p class="text-xs md:text-sm text-slate-600 mb-4">
+            Designed for demanding creation, AAA gaming, and intense AI compute workloads with zero performance compromises.
+          </p>
+          <ul class="space-y-2 text-xs md:text-sm border-t border-slate-200 pt-3 text-slate-700">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-microchip text-intelBlue"></i> Up to 16 Compute Cores (Cougar Cove P-Cores)</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-bolt text-intelBlue"></i> Intel Xe3 Celestial GPU Architecture</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-brain text-intelBlue"></i> Up to 180 Platform TOPS for Heavy AI</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-gamepad text-intelBlue"></i> Ideal for Creators, Gamers & Engineers</li>
+          </ul>
+        </div>
+
+        <!-- Wildcat Lake Card -->
+        <div class="bg-gradient-to-b from-white to-sky-50/50 border-2 border-intelSkyBlue rounded-2xl p-6 shadow-sm hover:shadow-md transition-all">
+          <span class="bg-intelSkyBlue text-intelDarkBlue text-xs font-extrabold uppercase px-3 py-1 rounded-full inline-block mb-3">Right-Sized AI & Efficient Value</span>
+          <h3 class="text-xl font-extrabold text-intelDarkBlue">Intel Core Series 3</h3>
+          <p class="font-handwritten text-intelBlue text-lg font-bold mb-3">Codenamed: Wildcat Lake</p>
+          <p class="text-xs md:text-sm text-slate-600 mb-4">
+            Brings modern computing and right-sized AI features to budget-conscious, highly mobile laptop buyers.
+          </p>
+          <ul class="space-y-2 text-xs md:text-sm border-t border-slate-200 pt-3 text-slate-700">
+            <li class="flex items-center gap-2"><i class="fa-solid fa-leaf text-intelBlue"></i> High Efficiency Core Architecture</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-battery-full text-intelBlue"></i> Extended Battery Life Endurance</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-robot text-intelBlue"></i> ~40 TOPS NPU for Daily AI Tasks</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-piggy-bank text-intelBlue"></i> Perfect for Students & Daily Multitasking</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. RECOMMENDED PROCESSOR SECTION (Includes All Market Processors) -->
+    <section id="recommender" class="tab-content">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Checklist Input Form (7 cols) -->
+        <div class="lg:col-span-7 bg-white border-2 border-intelLightBlue rounded-2xl p-6 shadow-sm">
+          <h2 class="text-xl font-bold text-intelDarkBlue mb-1 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-intelBlue"></i> Processor Match Requirements
+          </h2>
+          <p class="text-xs text-slate-500 mb-5">Select your preferences. Our student AI logic evaluates the full Intel market catalog.</p>
+
+          <form id="recommenderForm" onsubmit="event.preventDefault(); recommendProcessor();" class="space-y-4">
+            
+            <!-- Purpose -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1"><i class="fa-solid fa-bullseye text-intelBlue"></i> Primary Purpose</label>
+              <select id="purpose" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-intelBlue transition">
+                <option value="everyday">Everyday Tasks, Office & Streaming</option>
+                <option value="student">Student Coding, STEM & Multitasking</option>
+                <option value="gaming">AAA Gaming & High-FPS Esports</option>
+                <option value="editing">4K Video Editing & 3D Rendering</option>
+                <option value="ai_dev">Local AI/ML Model Execution & LLMs</option>
+              </select>
+            </div>
+
+            <!-- Intensity Level -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1"><i class="fa-solid fa-gauge-high text-intelBlue"></i> Workload Intensity Level</label>
+              <select id="intensity" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-intelBlue transition">
+                <option value="light">Light (Browsing, Video Calls, Web apps)</option>
+                <option value="moderate">Moderate (Photo Editing, Light Code compilation)</option>
+                <option value="heavy">Heavy (Heavy Render, VM Work, Continuous Heavy Gaming)</option>
+              </select>
+            </div>
+
+            <!-- Battery Requirement -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1"><i class="fa-solid fa-battery-half text-intelBlue"></i> Battery Life Preference</label>
+              <select id="battery" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-2.5 text-sm outline-none focus:border-intelBlue transition">
+                <option value="max_battery">Ultra Endurance (12+ Hours, Road Warrior)</option>
+                <option value="balanced">Balanced (Full Workday, Standard Use)</option>
+                <option value="max_power">Maximum Performance (Plugged-In Desktop Replacement)</option>
+              </select>
+            </div>
+
+            <!-- Multi-Select Checkboxes for Specific Processors (Requirement 2) -->
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">
+                <i class="fa-solid fa-boxes-stacked text-intelBlue"></i> Select Preferred Series / Suffixes (Select Multiple)
+              </label>
+              <p class="text-[11px] text-slate-500 mb-2">Check any processor lines or suffixes you are interested in considering:</p>
+              
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <!-- Individual Processors -->
+                <div>
+                  <input type="checkbox" id="proc-i3" value="i3" class="hidden proc-checkbox">
+                  <label for="proc-i3" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core i3 / Series 3</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-i5" value="i5" class="hidden proc-checkbox">
+                  <label for="proc-i5" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core i5</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-i7" value="i7" class="hidden proc-checkbox">
+                  <label for="proc-i7" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core i7</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-i9" value="i9" class="hidden proc-checkbox">
+                  <label for="proc-i9" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core i9</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-u5" value="ultra5" class="hidden proc-checkbox">
+                  <label for="proc-u5" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core Ultra 5</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-u7" value="ultra7" class="hidden proc-checkbox">
+                  <label for="proc-u7" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core Ultra 7</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-u9" value="ultra9" class="hidden proc-checkbox">
+                  <label for="proc-u9" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">Core Ultra 9</label>
+                </div>
+                <!-- Suffixes -->
+                <div>
+                  <input type="checkbox" id="proc-u" value="U" class="hidden proc-checkbox">
+                  <label for="proc-u" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">U-Series (Thin)</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-h" value="H" class="hidden proc-checkbox">
+                  <label for="proc-h" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">H-Series (Performance)</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="proc-hx" value="HX" class="hidden proc-checkbox">
+                  <label for="proc-hx" class="block border-2 border-slate-200 rounded-lg py-2 px-3 text-xs text-center cursor-pointer transition-all">HX-Series (Extreme)</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Budget Slider -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="text-xs font-bold uppercase tracking-wider text-slate-700"><i class="fa-solid fa-indian-rupee-sign text-intelBlue"></i> Laptop Budget Limit</label>
+                <span class="text-base font-extrabold text-intelBlue" id="budgetValue">₹75,000</span>
+              </div>
+              <input type="range" id="budget" min="30000" max="250000" step="5000" value="75000" oninput="updateBudgetDisplay(this.value)" class="w-full accent-intelBlue cursor-pointer h-2 bg-slate-200 rounded-lg">
+              <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                <span>₹30,000</span>
+                <span>₹1,40,000</span>
+                <span>₹2,50,000+</span>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full bg-intelBlue hover:bg-intelDarkBlue text-white font-bold py-3.5 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Get AI Processor Recommendation
+            </button>
+          </form>
+        </div>
+
+        <!-- Output Recommendation Panel (5 cols) -->
+        <div class="lg:col-span-5 bg-white border-2 border-dashed border-intelBlue rounded-2xl p-6 shadow-sm flex flex-col justify-center" id="resultsBox">
+          <div class="text-center py-8 text-slate-400">
+            <i class="fa-solid fa-laptop-code text-5xl text-slate-200 mb-3"></i>
+            <h3 class="text-base font-bold text-slate-600 mb-1">Your Match Will Appear Here</h3>
+            <p class="text-xs max-w-xs mx-auto">Select your checkboxes and click 'Get AI Processor Recommendation' to analyze market options.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. DIFFERENCE SECTION (Staggered Animation with Simple Analogies) -->
+    <section id="difference" class="tab-content">
+      <div class="text-center mb-8">
+        <span class="student-badge mb-2">Technical Terms Made Simple</span>
+        <h2 class="text-2xl font-extrabold text-intelDarkBlue">Key Differences Explained Simply</h2>
+        <p class="text-xs md:text-sm text-slate-500 max-w-xl mx-auto">Watch each core difference reveal sequentially with simple everyday analogies.</p>
+        <button onclick="playDifferences()" class="mt-3 bg-intelLightBlue border border-intelBlue text-intelBlue hover:bg-intelBlue hover:text-white font-bold text-xs py-2 px-4 rounded-xl transition duration-200 inline-flex items-center gap-2">
+          <i class="fa-solid fa-rotate-right"></i> Replay Sequential Differences
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto space-y-4" id="timelineContainer">
+        
+        <!-- Difference Card 1 -->
+        <div class="diff-item bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-full bg-intelLightBlue text-intelBlue font-extrabold flex items-center justify-center text-sm">1</div>
+            <h3 class="font-bold text-intelDarkBlue text-base">Architectural Goal: Peak Power vs. Efficiency</h3>
+          </div>
+          <p class="text-xs md:text-sm text-slate-600 mb-2">
+            <strong>Panther Lake (Ultra Series 3):</strong> Designed to push maximal frame rates, render heavy timeline tracks, and run simultaneous complex algorithms.
+          </p>
+          <p class="text-xs md:text-sm text-slate-600 mb-3">
+            <strong>Wildcat Lake (Series 3):</strong> Optimized for sleek mobility, cool operation, and all-day endurance without draining battery life fast.
+          </p>
+          <div class="bg-amber-50 border border-dashed border-amber-300 text-amber-900 rounded-xl p-3 text-xs flex items-start gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500 mt-0.5"></i>
+            <div><strong>Student Analogy:</strong> Think of Panther Lake as a high-performance sports car, while Wildcat Lake is a super-efficient electric hybrid city car.</div>
+          </div>
+        </div>
+
+        <!-- Difference Card 2 -->
+        <div class="diff-item bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-full bg-intelLightBlue text-intelBlue font-extrabold flex items-center justify-center text-sm">2</div>
+            <h3 class="font-bold text-intelDarkBlue text-base">AI TOPS Engine (Platform TOPS)</h3>
+          </div>
+          <p class="text-xs md:text-sm text-slate-600 mb-2">
+            <strong>Panther Lake:</strong> Heavy NPU + Xe3 GPU platform horsepower delivering up to 180 Platform TOPS for local Large Language Models (LLMs) and offline generative AI generation.
+          </p>
+          <p class="text-xs md:text-sm text-slate-600 mb-3">
+            <strong>Wildcat Lake:</strong> Right-sized ~40 TOPS NPU engineered specifically for smart everyday utilities like noise cancellation, background blur, and AI camera tracking.
+          </p>
+          <div class="bg-amber-50 border border-dashed border-amber-300 text-amber-900 rounded-xl p-3 text-xs flex items-start gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500 mt-0.5"></i>
+            <div><strong>Student Analogy:</strong> Panther Lake is a full film studio VFX engine; Wildcat Lake is a quick automatic filter on your smartphone camera.</div>
+          </div>
+        </div>
+
+        <!-- Difference Card 3 -->
+        <div class="diff-item bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-full bg-intelLightBlue text-intelBlue font-extrabold flex items-center justify-center text-sm">3</div>
+            <h3 class="font-bold text-intelDarkBlue text-base">Graphics Core (Intel Xe3 vs Integrated Xe)</h3>
+          </div>
+          <p class="text-xs md:text-sm text-slate-600 mb-2">
+            <strong>Panther Lake:</strong> Houses up to 12 Xe3 Celestial cores that let you run modern 3D games and CAD software smoothly without needing a bulky separate GPU.
+          </p>
+          <p class="text-xs md:text-sm text-slate-600 mb-3">
+            <strong>Wildcat Lake:</strong> Features lightweight integrated Xe graphics geared for multi-display 4K video playback, basic photo editing, and casual gaming.
+          </p>
+          <div class="bg-amber-50 border border-dashed border-amber-300 text-amber-900 rounded-xl p-3 text-xs flex items-start gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500 mt-0.5"></i>
+            <div><strong>Student Analogy:</strong> Panther Lake brings a built-in gaming console experience; Wildcat Lake provides clear, stutter-free high-def video streaming.</div>
+          </div>
+        </div>
+
+        <!-- Difference Card 4 -->
+        <div class="diff-item bg-white border-2 border-slate-200 rounded-2xl p-5 shadow-sm">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-8 h-8 rounded-full bg-intelLightBlue text-intelBlue font-extrabold flex items-center justify-center text-sm">4</div>
+            <h3 class="font-bold text-intelDarkBlue text-base">Target Pricing & Device Tier</h3>
+          </div>
+          <p class="text-xs md:text-sm text-slate-600 mb-2">
+            <strong>Panther Lake:</strong> Found in premium creator workstations, gaming rigs, and high-end ultrabooks starting at ₹90,000+.
+          </p>
+          <p class="text-xs md:text-sm text-slate-600 mb-3">
+            <strong>Wildcat Lake:</strong> Built to bring 18A architecture down to budget-friendly student and everyday laptops between ₹35,000 and ₹70,000.
+          </p>
+          <div class="bg-amber-50 border border-dashed border-amber-300 text-amber-900 rounded-xl p-3 text-xs flex items-start gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500 mt-0.5"></i>
+            <div><strong>Student Analogy:</strong> Professional workstation gear vs. smart, budget-smart everyday essential tools.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Tab switching logic
+    function switchTab(tabId) {
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      
+      // Update nav buttons
+      document.querySelectorAll('.nav-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-intelBlue', 'text-white', 'shadow-md');
+        btn.classList.add('bg-white', 'text-intelBlue');
+      });
+
+      // Activate chosen content & button
+      document.getElementById(tabId).classList.add('active');
+      const activeBtn = document.getElementById('btn-' + tabId);
+      activeBtn.classList.remove('bg-white', 'text-intelBlue');
+      activeBtn.classList.add('bg-intelBlue', 'text-white', 'shadow-md');
+
+      // Trigger animations if difference tab
+      if (tabId === 'difference') {
+        playDifferences();
+      }
+    }
+
+    // Budget slider updater
+    function updateBudgetDisplay(val) {
+      document.getElementById('budgetValue').innerText = '₹' + parseInt(val).toLocaleString('en-IN');
+    }
+
+    // Sequentially play difference items with time gap
+    function playDifferences() {
+      const items = document.querySelectorAll('.diff-item');
+      items.forEach(item => item.classList.remove('visible'));
+
+      items.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.add('visible');
+        }, index * 450); // 450ms time delay between each reveal
+      });
+    }
+
+    // Comprehensive AI Recommendation Logic (Requirement 3)
+    function recommendProcessor() {
+      const purpose = document.getElementById('purpose').value;
+      const intensity = document.getElementById('intensity').value;
+      const battery = document.getElementById('battery').value;
+      const budget = parseInt(document.getElementById('budget').value);
+
+      // Collect user selected checkboxes
+      const selectedBoxes = Array.from(document.querySelectorAll('.proc-checkbox:checked')).map(cb => cb.value);
+
+      let processorTitle = "";
+      let processorCode = "";
+      let rationale = "";
+      let laptops = [];
+
+      // Broad Market Intel Processors Decision Matrix
+      if (budget < 45000) {
+        if (selectedBoxes.includes('i3') || purpose === 'everyday') {
+          processorTitle = "Intel Core 3 100U / Core Series 3 (Wildcat Lake)";
+          processorCode = "Core 3 / Wildcat Lake Entry Tier";
+          rationale = "Ideal for essential web browsing, office tasks, and online classes while keeping laptop costs very affordable.";
+          laptops = [
+            { name: "Lenovo IdeaPad Slim 3 (Intel Core 3 100U)", price: "₹36,990" },
+            { name: "HP Laptop 15s (Intel Core 3 Series)", price: "₹41,500" }
+          ];
+        } else {
+          processorTitle = "Intel Core i3 13th Gen 1315U";
+          processorCode = "13th Gen Raptor Lake U-Series";
+          rationale = "Budget-friendly option offering reliable dual performance/efficiency cores for smooth everyday execution.";
+          laptops = [
+            { name: "ASUS Vivobook 15 (Intel Core i3 13th Gen)", price: "₹38,490" },
+            { name: "Dell Inspiron 3530 (Intel Core i3 13th Gen)", price: "₹42,990" }
+          ];
+        }
+      } 
+      else if (budget >= 45000 && budget < 80000) {
+        if (battery === 'max_battery' || selectedBoxes.includes('ultra5')) {
+          processorTitle = "Intel Core Ultra 5 125U / 226V (Lunar Lake / Meteor Lake)";
+          processorCode = "Core Ultra 5 Series 1 / Series 2";
+          rationale = "Offers specialized NPU acceleration for AI tasks alongside exceptional power management for long battery life.";
+          laptops = [
+            { name: "ASUS Zenbook 14 OLED (Intel Core Ultra 5)", price: "₹74,990" },
+            { name: "Lenovo Yoga Slim 6 (Intel Core Ultra 5)", price: "₹68,500" }
+          ];
+        } else if (selectedBoxes.includes('H') || purpose === 'gaming' || purpose === 'editing') {
+          processorTitle = "Intel Core i5 13500H / 14500HX";
+          processorCode = "13th / 14th Gen H-Series";
+          rationale = "Delivers high clock speeds and performance-core throughput required for entry gaming and video editing.";
+          laptops = [
+            { name: "HP Victus Gaming (Intel Core i5 13th Gen H)", price: "₹62,990" },
+            { name: "Lenovo LOQ 15 (Intel Core i5 14th Gen HX)", price: "₹73,500" }
+          ];
+        } else {
+          processorTitle = "Intel Core 5 120U / Core Series 3 (Wildcat Lake)";
+          processorCode = "Core 5 / Wildcat Lake Balanced Tier";
+          rationale = "Provides an optimal balance between fast response times, integrated graphics, and accessible pricing.";
+          laptops = [
+            { name: "Dell Inspiron 14 (Intel Core 5 120U)", price: "₹56,990" },
+            { name: "HP Pavilion 15 (Intel Core 5 Series)", price: "₹61,000" }
+          ];
+        }
+      } 
+      else if (budget >= 80000 && budget < 140000) {
+        if (selectedBoxes.includes('ultra7') || purpose === 'ai_dev' || battery === 'max_battery') {
+          processorTitle = "Intel Core Ultra 7 258V (Lunar Lake) / Panther Lake Core Ultra 7";
+          processorCode = "Intel Core Ultra 7 Series 2 / Series 3";
+          rationale = "Features cutting-edge NPU AI architecture, built-in Xe2/Xe3 graphics, and extreme energy efficiency for power users.";
+          laptops = [
+            { name: "ASUS Zenbook S 14 (Intel Core Ultra 7 258V)", price: "₹1,29,990" },
+            { name: "HP Spectre x360 (Intel Core Ultra 7)", price: "₹1,34,500" }
+          ];
+        } else if (selectedBoxes.includes('HX') || purpose === 'gaming') {
+          processorTitle = "Intel Core i7 14700HX";
+          processorCode = "14th Gen Raptor Lake HX-Series";
+          rationale = "Desktop-class core count and power limits built to drive high-end discrete gaming GPUs without bottlenecking.";
+          laptops = [
+            { name: "Acer Predator Helios Neo 16 (i7 14700HX)", price: "₹1,14,990" },
+            { name: "Legion Pro 5i (Intel Core i7 14th Gen HX)", price: "₹1,32,000" }
+          ];
+        } else {
+          processorTitle = "Intel Core Ultra 7 155H (Meteor Lake)";
+          processorCode = "Core Ultra 7 H-Series";
+          rationale = "Versatile 16-core configuration suitable for heavy multitasking, coding, and continuous creative workflows.";
+          laptops = [
+            { name: "Acer Swift Go 14 (Intel Core Ultra 7)", price: "₹89,990" },
+            { name: "Dell XPS 13 (Intel Core Ultra 7)", price: "₹1,38,000" }
+          ];
+        }
+      } 
+      else {
+        // Budget >= 140000
+        if (selectedBoxes.includes('ultra9') || purpose === 'ai_dev' || purpose === 'editing') {
+          processorTitle = "Intel Core Ultra 9 288V / Panther Lake Ultra 9 (Series 3)";
+          processorCode = "Intel Core Ultra 9 Flagship Tier";
+          rationale = "Intel's flagship mobile silicon delivering maximum platform TOPS for local AI models and intense rendering tasks.";
+          laptops = [
+            { name: "ASUS ROG Zephyrus G16 (Intel Core Ultra 9)", price: "₹2,14,990" },
+            { name: "Dell XPS 16 (Intel Core Ultra 9)", price: "₹2,45,000" }
+          ];
+        } else {
+          processorTitle = "Intel Core i9 14900HX";
+          processorCode = "14th Gen Raptor Lake HX Extreme";
+          rationale = "24 Cores and 32 Threads of pure performance designed for mobile workstations and top-tier enthusiast gaming.";
+          laptops = [
+            { name: "MSI Raider GE78 HX (Intel Core i9 14900HX)", price: "₹2,29,990" },
+            { name: "Lenovo Legion 9i (Intel Core i9 14th Gen HX)", price: "₹2,55,000" }
+          ];
+        }
+      }
+
+      // Render AI Recommendation Card
+      const resultsBox = document.getElementById('resultsBox');
+      resultsBox.innerHTML = `
+        <div>
+          <span class="student-badge mb-2">AI Recommended Match</span>
+          <h3 class="text-xl font-extrabold text-intelBlue leading-tight mb-1">${processorTitle}</h3>
+          <p class="text-xs font-bold text-intelDarkBlue bg-intelLightBlue inline-block px-2.5 py-1 rounded-md mb-3">${processorCode}</p>
+          
+          <p class="text-xs text-slate-600 mb-4 leading-relaxed">${rationale}</p>
+          
+          ${selectedBoxes.length > 0 ? `
+            <div class="mb-4 text-[11px] text-slate-500 bg-slate-50 p-2 rounded-lg border border-slate-200">
+              <strong>Your Selected Filters Evaluated:</strong> ${selectedBoxes.join(', ')}
+            </div>
+          ` : ''}
+
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-intelDarkBlue mb-2 flex items-center gap-1.5">
+            <i class="fa-solid fa-laptop text-intelBlue"></i> Top Laptops within ₹${budget.toLocaleString('en-IN')}:
+          </h4>
+
+          <div class="space-y-2">
+            ${laptops.map(lap => `
+              <div class="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between shadow-2xs hover:border-intelBlue transition">
+                <div class="flex items-center gap-2.5">
+                  <i class="fa-solid fa-laptop-code text-intelBlue text-lg"></i>
+                  <div>
+                    <div class="text-xs font-bold text-slate-800">${lap.name}</div>
+                    <div class="text-[11px] text-intelBlue font-bold">${lap.price}</div>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
